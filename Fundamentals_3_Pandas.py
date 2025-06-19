@@ -80,3 +80,47 @@ print(meteorites.tail())
 print(meteorites.info())
 
 # Extracting Subsets
+# A crucial part of working with DataFrames is extracting subsets of the data: finding rows that meet a certain set of criteria, isolating columns/rows of interest, etc. After narrowing down our data, we are closer to discovering insights. This section will be the backbone of many analysis tasks.
+
+# Selecting columns
+# We can select columns as attributes if their names would be valid Python variables:
+
+print(meteorites.name)
+
+# If their names would not be valid Python variables then we have to select them as keys. We can select multiple 
+# columns at once this way.
+
+print(meteorites[['name','mass (g)']])
+
+# Selecting rows
+
+print(meteorites[100:104])
+
+# Indexing - using iloc[] to select rows and columns by their position (think of as index location of the column):
+
+print(meteorites.iloc[100:104, [0,3,4,6]]) #This should return rows 100-104 and columns 0,3,4,6
+
+# Alternatively use loc[] to select by name:
+
+print(meteorites.loc[100:104, 'mass (g)':'year']) # This is selecting all the columns from mass to year.
+
+# Filtering with Boolean masks
+# A Boolean mask is a array-like structure of Boolean values – it's a way to specify which rows/columns we want to select (True) and which we don't (False).
+
+# Here's an example of a Boolean mask for meteorites weighing more than 50 grams that were found on Earth (i.e., they were not observed falling):
+
+print((meteorites['mass (g)'] > 50) & (meteorites.fall == 'Found'))
+
+# Important: Take note of the syntax here. We surround each condition with parentheses, and we use bitwise
+#  operators (&, |, ~) instead of logical operators (and, or, not).
+
+# We can use a Boolean mask to select the subset of meteorites weighing more than 1 million grams (1,000 kilograms
+# or roughly 2,205 pounds) that were observed falling:
+
+print(meteorites[(meteorites['mass (g)']>1e6) & (meteorites.fall == 'Fell')])
+
+# Tip: Boolean masks can be used with loc[] and iloc[].
+
+# An alternative to this is the query() method:
+
+meteorites.query("`mass(g)` > 1e6 and fall == 'Fell'")
