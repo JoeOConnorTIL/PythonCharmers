@@ -123,4 +123,54 @@ print(meteorites[(meteorites['mass (g)']>1e6) & (meteorites.fall == 'Fell')])
 
 # An alternative to this is the query() method:
 
-meteorites.query("`mass(g)` > 1e6 and fall == 'Fell'")
+meteorites.query("`mass (g)` > 1e6 and fall == 'Fell'")
+
+# Tip: Here, we can use both logical operators and bitwise operators.
+
+# Calculating summary statistics
+# In the next section of this workshop, we will discuss data cleaning for a more meaningful analysis of our datasets; 
+# however, we can already extract some interesting insights from the meteorites data by calculating summary statistics.
+
+# How many of the meteorites were found versus observed falling?
+
+print(meteorites.fall.value_counts())
+
+# Tip: Pass in normalize=True to see this result as percentages. Check the documentation for additional functionality.
+
+# What was the mass of the average meteorite?
+
+print(meteorites['mass (g)'].mean())
+
+# Important: The mean isn't always the best measure of central tendency. If there are outliers in the distribution, 
+# the mean will be skewed. Here, the mean is being pulled higher by some very heavy meteorites – the distribution is 
+# right-skewed.
+
+# Taking a look at some quantiles at the extremes of the distribution shows that the mean is between the 95th and 99th 
+# percentile of the distribution, so it isn't a good measure of central tendency here:
+
+print(meteorites['mass (g)'].quantile([0.01, 0.05, 0.5, 0.95, 0.99]))
+
+# So a better measure in this case is the median (50th percentile), since it is robust to outliers.
+
+print(meteorites['mass (g)'].median())
+
+# What was the mass of the heaviest meteorite?
+
+print(meteorites['mass (g)'].max())
+
+# To extract the information on this meteorite:
+
+print (meteorites.loc[meteorites['mass (g)'].idxmax()]) # idxmax returns the row value of the maximum value. loc accesses
+# rows based on location or boolean array.
+
+# How many different classes of meteorites 
+
+print(meteorites.recclass.nunique())
+
+# To give some examples of meteorites
+
+print(meteorites.recclass.unique()[:14])
+
+# To get some summary statistics on the data itself:
+
+print(meteorites.describe(include='all')) # by default this only does numeric columns, but include all does everything.
