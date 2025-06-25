@@ -48,3 +48,17 @@ print(meteorite[['name','mass']])
 # Can you find it? (Don't spend too much time on this.)
 
 # Enter your code here
+
+print(meteorite['year'].head())
+
+meteorite['year'] = meteorite.year.str.slice(6, 10)
+meteorite['year'] = meteorite['year'].apply(pd.to_numeric)
+
+print(meteorite['year'].head())
+
+meteorite['before_1970'] = meteorite['year'] < 1970
+print(meteorite[['year', 'before_1970']].head())
+
+meteorite['id'] = meteorite['id'].apply(pd.to_numeric)
+meteorite = meteorite.set_index('id').sort_index() # Need to sort the index after setting it to be able to call a range
+print(meteorite.loc[10036:10040])

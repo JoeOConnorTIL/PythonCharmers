@@ -91,3 +91,45 @@ print(taxis.sort_values(['passenger_count', 'pickup'], ascending = [False, True]
 # To pick out the largest/ smallest rows, use nlargest() / nsmallest() instead.
 
 print(taxis.nlargest(3, 'elapsed_time'))
+
+
+# Working with the index
+
+# So far, we haven't really worked with the index because 
+# it's just been a row number; however, we can change the 
+# values we have in the index to access additional features
+# of the pandas library.
+
+# Setting and sorting the index
+
+# Currently we have a Rangeindex, but we can switch to a 
+# DatetimeIndex by specifying a datetime column when calling 
+# set_index():
+
+taxis = taxis.set_index('pickup')
+print(taxis.head(3))
+
+# Since we have a sample of the full dataset, let's sort the index to order by pickup time:
+
+taxis = taxis.sort_index()
+
+# Tip: taxis.sort_index(axis=1) will sort the columns by name. The axis parameter is present
+# throughout the pandas library: axis=0 targets rows and axis=1 targets columns.
+
+# We can now select ranges from our data based on the datetime the same way we did with
+# row numbers:
+
+print(taxis['2019-10-23 07:45':'2019-10-23 08'])
+
+# When not specifying a range, we can use the indext to select a single row:
+
+print(taxis.loc['2019-10-23 08']) # Any time starting with '08' on this date.
+
+# We will be working with time series later this section, but sometimes we want to reset 
+# our index to row numbers and restore the columns. We can make pickup a column again with 
+# the reset_index() method:
+
+taxis = taxis.reset_index()
+print(taxis.head())
+
+
