@@ -62,3 +62,35 @@ print(meteorite[['year', 'before_1970']].head())
 meteorite['id'] = meteorite['id'].apply(pd.to_numeric)
 meteorite = meteorite.set_index('id').sort_index() # Need to sort the index after setting it to be able to call a range
 print(meteorite.loc[10036:10040])
+
+# In the Python command:
+
+# meteorite = meteorite.set_index('id').sort_index()
+# the order of operations follows left-to-right chaining due to method chaining on a Pandas DataFrame. Here's what 
+# happens step-by-step:
+
+# meteorite.set_index('id')
+
+# This creates a new DataFrame where the 'id' column is set as the index.
+
+# The result is a DataFrame with 'id' as its index, and the original 'id' column is removed from the columns.
+
+# .sort_index()
+
+# This sorts the new DataFrame by its index — which is now 'id'.
+
+# It returns another DataFrame, now sorted by 'id'.
+
+# meteorite = ...
+
+# The resulting sorted DataFrame is then reassigned back to the meteorite variable.
+
+# Summary of Order:
+# set_index('id')
+
+# sort_index()
+
+# Assignment to meteorite
+
+# Each method returns a new DataFrame, not modifying the original meteorite in-place unless explicitly specified 
+# with inplace=True.
